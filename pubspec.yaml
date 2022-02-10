@@ -41,7 +41,7 @@ dependencies:
   http: ^0.13.4
   url_launcher: ^6.0.18
   # painter: ^2.0.0
-  scribble: ^0.2.2
+  scribble: 
   admob_flutter: ^2.0.0
   # facebook_audience_network: ^1.0.1
 
