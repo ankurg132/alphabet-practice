@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:overcome_breakup/screens/painter.dart';
@@ -17,15 +18,19 @@ class HindiPractice extends StatefulWidget {
 }
 
 class _HindiPracticeState extends State<HindiPractice> {
-  List data = [];
+  late var data;
+  List images = [];
   bool isLoading = true;
 
   Future<String> loadJsonData() async {
     var jsonText = await http.get(Uri.parse(
         "https://raw.githubusercontent.com/ankurg132/ankurg132.github.io/master/alphabet_practice.json"));
-
     // print(jsonText);
     setState(() => data = json.decode(jsonText.body));
+    print(data[0]['images']);
+    setState(() {
+      images = data[0]['images'];
+    });
     setState(() {
       isLoading = false;
     });
@@ -45,35 +50,33 @@ class _HindiPracticeState extends State<HindiPractice> {
       appBar: AppBar(
         title: const Text('हिंदी प्रैक्टिक'),
       ),
-      body: SingleChildScrollView(
-        // key: ,
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Spacer(
-                    //flex: 2,
-                    ),
-                SizedBox(
-                  height: mediaquery.height * 0.35,
-                  child: Image.network(
-                    'https://th.bing.com/th/id/R.d9572d4313850780faa70613e8a71e28?rik=vsqRty%2f%2bjmerWA&riu=http%3a%2f%2fwww.indif.com%2fkids%2fcoloring_sheets%2fimages%2fhindialphabetcoloring_1.jpg&ehk=KV3odF91XbiIE4Idnud4QhWzw30CQk7yssY7lAoemSw%3d&risl=&pid=ImgRaw&r=0',
-                    // width: mediaquery.width * 0.6,
-                    fit: BoxFit.contain,
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : Column(
+                children: [
+                  Expanded(
+                    child: PageView.builder(
+                      itemCount: images.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder:(context,index)=>
+                            Container(
+                              width: mediaquery.width * 0.5,
+                              height: mediaquery.height * 0.5,
+                              child: Image.network(
+                                images[index],
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          )
                   ),
-                ),
-                Spacer(
-                    //flex: 2,
-                    ),
-              ],
-            ),
-            Card(
-                elevation: 10,
-                child: SizedBox(
-                    height: mediaquery.height * 0.7, child: DrawingSheet())),
-          ],
-        ),
-      ),
+                  Card(
+                      elevation: 10,
+                      child: SizedBox(
+                          height: mediaquery.height * 0.7,
+                          child: DrawingSheet())),
+                ],
+              ),
+            
     );
   }
 }
