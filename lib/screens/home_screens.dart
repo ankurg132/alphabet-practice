@@ -11,9 +11,12 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:overcome_breakup/constants/colors.dart';
 import 'package:overcome_breakup/constants/unityads.dart';
+import 'package:overcome_breakup/screens/all_english_words.dart';
 import 'package:overcome_breakup/widgets/home_page_widget.dart';
 import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 
+import 'all_hindi_words.dart';
+import 'all_maths_letters.dart';
 import 'hindi_practice_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -83,65 +86,85 @@ class _HomeScreenState extends State<HomeScreen> {
             InkWell(
               onTap: (() {
                 Navigator.of(context).pushNamed(
-                  HindiPractice.routeName,
-                  // arguments: product.id
+                  AllHindiWordList.routeName,
                 );
               }),
+              child: SizedBox(
+                width: mediaquery.width * 0.7,
+                child: Center(
+                  child: Card(
+                    elevation: 5,
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          'assets/hindi.png',
+                          width: mediaquery.width * 0.7,
+                          height: mediaquery.height * 0.3,
+                          fit: BoxFit.cover,
+                        ),
+                        Text(
+                          'Hindi Practice ',
+                          style: const TextStyle(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  AllEnglishWordList.routeName,
+                );
+              },
+              child: SizedBox(
+                width: mediaquery.width * 0.7,
+                child: Center(
+                  child: Card(
+                    elevation: 5,
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          'assets/english.png',
+                          // width: mediaquery.width * 0.7,
+                          height: mediaquery.height * 0.3,
+                          // fit: BoxFit.fitWidth,
+                        ),
+                        Text(
+                          'English Alphabet',
+                          style: const TextStyle(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  AllMathsWordList.routeName,
+                  // arguments: product.id
+                );
+              },
               child: Center(
                 child: Card(
                   elevation: 5,
                   child: Column(
                     children: [
-                      Image.network(
-                        'https://picsum.photos/200',
+                      Image.asset(
+                        'assets/math.png',
                         width: mediaquery.width * 0.7,
                         height: mediaquery.height * 0.3,
                         fit: BoxFit.cover,
                       ),
                       Text(
-                        'Hindi Practice ',
+                        'Math Practice',
                         style: const TextStyle(),
                       ),
                     ],
                   ),
-                ),
-              ),
-            ),
-            Center(
-              child: Card(
-                elevation: 5,
-                child: Column(
-                  children: [
-                    Image.network(
-                      'https://picsum.photos/200',
-                      width: mediaquery.width * 0.7,
-                      height: mediaquery.height * 0.3,
-                      fit: BoxFit.cover,
-                    ),
-                    Text(
-                      'English Alphabet',
-                      style: const TextStyle(),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Center(
-              child: Card(
-                elevation: 5,
-                child: Column(
-                  children: [
-                    Image.network(
-                      'https://picsum.photos/200',
-                      width: mediaquery.width * 0.7,
-                      height: mediaquery.height * 0.3,
-                      fit: BoxFit.cover,
-                    ),
-                    Text(
-                      'Math Practice',
-                      style: const TextStyle(),
-                    ),
-                  ],
                 ),
               ),
             ),

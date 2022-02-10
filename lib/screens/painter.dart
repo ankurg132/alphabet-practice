@@ -1,14 +1,11 @@
-// ignore_for_file: sized_box_for_whitespace
-
 import 'package:flutter/material.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:overcome_breakup/constants/colors.dart';
+import 'package:overcome_breakup/screens/home_screens.dart';
 import 'package:scribble/scribble.dart';
 
 class DrawingSheet extends StatefulWidget {
   const DrawingSheet({Key? key}) : super(key: key);
-
-  // final String title;
 
   @override
   State<DrawingSheet> createState() => _HomePageState();
@@ -26,7 +23,6 @@ class _HomePageState extends State<DrawingSheet> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      // scrollDirection: Axis.horizontal,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SizedBox(
@@ -38,14 +34,16 @@ class _HomePageState extends State<DrawingSheet> {
                   children: [
                     const Spacer(),
                     ElevatedButton(
-                        onPressed: () {
-                          _saveImage(context);
+                        onPressed: () async {
+                          await _saveImage(context);
+                          interstitialAd.show();
                         },
                         child: const Text("Save Image")),
                     const Spacer(),
                     ElevatedButton(
-                        onPressed: () {
-                          _saveImage(context);
+                        onPressed: () async {
+                          await _saveImage(context);
+                          interstitialAd.show();
                         },
                         child: const Text("Share Image")),
                     const Spacer(),
@@ -63,22 +61,16 @@ class _HomePageState extends State<DrawingSheet> {
                     Positioned(
                       top: 0,
                       left: 0,
-                      child: Column(
+                      child: Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          _buildStrokeToolbar(context),
+                          const Text(
+                            '''         ''',
+                            style: TextStyle(),
+                          ),
                           _buildColorToolbar(context),
-                          const Divider(
-                            height: 32,
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            child: Row(
-                              children: [
-                                // DropdownButton(items: [], onChanged: onChanged)
-                                _buildStrokeToolbar(context),
-                                const Spacer(),
-                              ],
-                            ),
-                          ),
                         ],
                       ),
                     )
@@ -156,6 +148,7 @@ class _HomePageState extends State<DrawingSheet> {
   }
 
   Widget _buildColorToolbar(BuildContext context) {
+    Color avatarColor = Colors.pink;
     return StateNotifierBuilder<ScribbleState>(
       stateNotifier: notifier,
       builder: (context, state, _) => Row(
@@ -178,15 +171,15 @@ class _HomePageState extends State<DrawingSheet> {
             height: 5.0,
           ),
           _buildEraserButton(context, isSelected: state is Erasing),
-          _buildColorButton(context, color: Colors.black, state: state),
+          // _buildColorButton(context, color: Colors.black, state: state),
           // _buildColorButton(context, color: Colors.red, state: state),
-          ElevatedButton(
-              onPressed: () {
+          InkWell(
+              onTap: () {
                 // notifier.setColor(Colors.black);
                 showModalBottomSheet(
                     context: context,
                     builder: (context) {
-                      return Container(
+                      return SizedBox(
                         height: MediaQuery.of(context).size.height * 0.65,
                         child: ListView.builder(
                           itemCount: colors.length,
@@ -197,6 +190,7 @@ class _HomePageState extends State<DrawingSheet> {
                                 onTap: () {
                                   Navigator.pop(context);
                                   setState(() {
+                                    avatarColor = color;
                                     notifier.setColor(color);
                                   });
                                 },
@@ -210,7 +204,9 @@ class _HomePageState extends State<DrawingSheet> {
                       );
                     });
               },
-              child: const Text("Colors")),
+              child: CircleAvatar(
+                backgroundColor: avatarColor,
+              )),
           // }, child: const Text("Color")),
           // _buildColorButton(context, color: Colors.green, state: state),
           // _buildColorButton(context, color: Colors.blue, state: state),
