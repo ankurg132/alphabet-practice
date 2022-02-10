@@ -9,8 +9,10 @@ import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:overcome_breakup/constants/unityads.dart';
+import 'package:overcome_breakup/screens/painter.dart';
 import './screens/home_screens.dart';
 import 'constants/googlead.dart';
+import 'screens/hindi_practice_screen.dart';
 import 'widgets/home_page_widget.dart';
 
 class MyHttpOverrides extends HttpOverrides {
@@ -42,7 +44,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: HomeScreen(),
       routes: {
-        HomePageWidget.routeName: (ctx) => HomePageWidget(),
+        HindiPractice.routeName: (ctx) => HindiPractice(),
         HomeScreen.routeName: (ctx) => HomeScreen(),
         UnityAdsPage.routeName: (ctx) => UnityAdsPage(),
       },

@@ -12,8 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:overcome_breakup/constants/colors.dart';
 import 'package:overcome_breakup/constants/unityads.dart';
 import 'package:overcome_breakup/widgets/home_page_widget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unity_ads_plugin/unity_ads_plugin.dart';
+
+import 'hindi_practice_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -39,27 +40,6 @@ AdmobBannerSize? bannerSize;
 late AdmobInterstitial interstitialAd;
 
 class _HomeScreenState extends State<HomeScreen> {
-  List data = [];
-  bool isLoading = true;
-
-  Future<String> loadJsonData() async {
-    // var jsonText = await rootBundle.loadString('assets/data.json');
-    var jsonText = await http.get(Uri.parse(
-        "https://raw.githubusercontent.com/ankurg132/ankurg132.github.io/master/data.json"));
-    print(jsonText);
-    setState(() => data = json.decode(jsonText.body));
-    setState(() {
-      isLoading = false;
-    });
-    return 'success';
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    sharedpref();
-  }
-
   @override
   void initState() {
     super.initState();
@@ -82,10 +62,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     interstitialAd.load();
 
-    if (data.isEmpty) {
-      loadJsonData();
-    }
-    sharedpref();
+    // if (data.isEmpty) {
+    //   loadJsonData();
+    // }
+    // sharedpref();
   }
 
   @override
@@ -94,38 +74,87 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: MyColors.primaryColor,
-        title: const Text('BreakUp Overcome'),
+        title: const Text('Alphabet Practice'),
       ),
       backgroundColor: MyColors.backColor,
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(bottom: 50),
-                    height: mediaquery.height * 0.9,
-                    child: GridView.builder(
-                      itemCount: data.length,
-                      itemBuilder: (ctx, index) =>
-                          HomePageCard(index: index, data: data),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 2 / 2,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10),
-                    ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            InkWell(
+              onTap: (() {
+                Navigator.of(context).pushNamed(
+                  HindiPractice.routeName,
+                  // arguments: product.id
+                );
+              }),
+              child: Center(
+                child: Card(
+                  elevation: 5,
+                  child: Column(
+                    children: [
+                      Image.network(
+                        'https://picsum.photos/200',
+                        width: mediaquery.width * 0.7,
+                        height: mediaquery.height * 0.3,
+                        fit: BoxFit.cover,
+                      ),
+                      Text(
+                        'Hindi Practice ',
+                        style: const TextStyle(),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
+            Center(
+              child: Card(
+                elevation: 5,
+                child: Column(
+                  children: [
+                    Image.network(
+                      'https://picsum.photos/200',
+                      width: mediaquery.width * 0.7,
+                      height: mediaquery.height * 0.3,
+                      fit: BoxFit.cover,
+                    ),
+                    Text(
+                      'English Alphabet',
+                      style: const TextStyle(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Center(
+              child: Card(
+                elevation: 5,
+                child: Column(
+                  children: [
+                    Image.network(
+                      'https://picsum.photos/200',
+                      width: mediaquery.width * 0.7,
+                      height: mediaquery.height * 0.3,
+                      fit: BoxFit.cover,
+                    ),
+                    Text(
+                      'Math Practice',
+                      style: const TextStyle(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
               child: Text(
-                'BreakUp Overcome',
+                'Alphabet Practice',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,
@@ -164,9 +193,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      // bottomNavigationBar: UnityBannerAd(
-      //   placementId: AdManager.bannerAdPlacementId,
-      // size: AdSize.banner,
       bottomNavigationBar: AdmobBanner(
           adUnitId: GoogleAdManager.getBannerAdUnitId,
           adSize: AdmobBannerSize.BANNER),
@@ -196,147 +222,4 @@ class AdManager {
   static String get rewardedVideoAdPlacementId {
     return 'Rewarded_Android';
   }
-}
-
-void sharedpref() async {
-  print("INITHOME");
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  final SharedPreferences prefs = await _prefs;
-  if (prefs.getInt('counter') == null) {
-    prefs.setInt('counter', 0);
-  }
-  int counter = prefs.getInt('counter') ?? 0;
-  daysCompleted = (counter / 3).floor();
-  print("DAYS" + daysCompleted.toString());
-}
-
-class HomePageCard extends StatelessWidget {
-  const HomePageCard({
-    Key? key,
-    required this.index,
-    required this.data,
-  }) : super(key: key);
-  final int index;
-  final List data;
-  @override
-  Widget build(BuildContext context) {
-    var mediaquery = MediaQuery.of(context).size;
-    return InkWell(
-      onTap: () async {
-        // UnityAds.showVideoAd(placementId: 'Interstitial_Android');
-        if (index > daysCompleted) {
-          AwesomeDialog(
-            dismissOnBackKeyPress: false,
-            showCloseIcon: false,
-            dismissOnTouchOutside: false,
-            context: context,
-            dialogType: DialogType.ERROR,
-            animType: AnimType.BOTTOMSLIDE, //awesome_dialog: ^2.1.1
-            title: 'Please Complete previous $index days',
-            btnOkText: 'OK',
-            btnOkColor: Theme.of(context).primaryColor,
-            btnCancelOnPress: () async {
-              // UnityAds.showVideoAd(placementId: 'Interstitial_Android');
-              final isLoaded = await interstitialAd.isLoaded;
-              if (isLoaded ?? false) {
-                interstitialAd.show();
-              } else {}
-            },
-            btnOkOnPress: () async {
-              final isLoaded = await interstitialAd.isLoaded;
-              if (isLoaded ?? false) {
-                interstitialAd.show();
-              } else {}
-              // UnityAds.showVideoAd(placementId: 'Interstitial_Android');
-            },
-          ).show();
-        } else {
-          final Future<SharedPreferences> _prefs =
-              SharedPreferences.getInstance();
-          final SharedPreferences prefs = await _prefs;
-          if (daysCompleted >= index) {
-            if (daysCompleted == index &&
-                prefs.getBool('first') == true &&
-                prefs.getBool('second') == true &&
-                prefs.getBool('third') == true) {
-              taskData = [false, false, false];
-              prefs.setBool('first', false);
-              prefs.setBool('second', false);
-              prefs.setBool('third', false);
-            }
-            Navigator.pushNamed(context, HomePageWidget.routeName,
-                arguments: [data[index]["task"], index]);
-          }
-        }
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: Card(
-          color: daysCompleted >= index ? Colors.green[100] : Colors.white,
-          elevation: 5,
-          child: Column(
-            children: [
-              SizedBox(
-                width: double.infinity,
-                height: mediaquery.height * 0.15,
-                child: daysCompleted == index
-                    ? Image.asset(
-                        'assets/healing.jpg',
-                        fit: BoxFit.fill,
-                      )
-                    : daysCompleted > index
-                        ? Image.asset(
-                            'assets/fixed.png',
-                            fit: BoxFit.fill,
-                          )
-                        : Image.asset(
-                            'assets/broken.png',
-                            fit: BoxFit.contain,
-                          ),
-              ),
-              Spacer(
-                flex: 2,
-              ),
-              Center(
-                child: Row(
-                  children: [
-                    Spacer(),
-                    Text(
-                      "Day ",
-                      style: TextStyle(
-                          fontSize: mediaquery.height * 0.02,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      '''${index + 1}  ''',
-                      style: TextStyle(
-                          fontSize: mediaquery.height * 0.02,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    daysCompleted == index
-                        ? Icon(Icons.favorite_border)
-                        : daysCompleted > index
-                            ? Icon(Icons.check)
-                            : Icon(
-                                Icons.lock_clock_outlined,
-                                color: Colors.grey,
-                                size: 30,
-                              ),
-                    Spacer(),
-                  ],
-                ),
-              ),
-              Spacer(
-                flex: 1,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-void log(String string) {
-  print(string);
 }
