@@ -21,23 +21,10 @@ class _HindiPracticeState extends State<HindiPractice> {
   bool isLoading = true;
 
   Future<String> loadJsonData() async {
-    // var jsonText = await rootBundle.loadString('assets/data.json');
     var jsonText = await http.get(Uri.parse(
         "https://raw.githubusercontent.com/ankurg132/ankurg132.github.io/master/alphabet_practice.json"));
-    if (jsonText.statusCode != 200) {
-      AwesomeDialog(
-        context: context, showCloseIcon: true,
-        dialogType: DialogType.INFO_REVERSED,
-        animType: AnimType.BOTTOMSLIDE, //awesome_dialog: ^2.1.1
-        title: 'Not Login?',
 
-        btnOkText: 'Login',
-        btnOkColor: Theme.of(context).primaryColor,
-        btnOkOnPress: () {},
-      ).show();
-      return "";
-    }
-    print(jsonText);
+    // print(jsonText);
     setState(() => data = json.decode(jsonText.body));
     setState(() {
       isLoading = false;
@@ -59,38 +46,25 @@ class _HindiPracticeState extends State<HindiPractice> {
         title: const Text('हिंदी प्रैक्टिक'),
       ),
       body: SingleChildScrollView(
+        // key: ,
         child: Column(
           children: [
             Row(
               children: [
+                Spacer(
+                    //flex: 2,
+                    ),
                 SizedBox(
-                  height: mediaquery.height * 0.25,
+                  height: mediaquery.height * 0.35,
                   child: Image.network(
                     'https://th.bing.com/th/id/R.d9572d4313850780faa70613e8a71e28?rik=vsqRty%2f%2bjmerWA&riu=http%3a%2f%2fwww.indif.com%2fkids%2fcoloring_sheets%2fimages%2fhindialphabetcoloring_1.jpg&ehk=KV3odF91XbiIE4Idnud4QhWzw30CQk7yssY7lAoemSw%3d&risl=&pid=ImgRaw&r=0',
-                    width: mediaquery.width * 0.6,
+                    // width: mediaquery.width * 0.6,
                     fit: BoxFit.contain,
                   ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Save',
-                        style: const TextStyle(),
-                      ),
+                Spacer(
+                    //flex: 2,
                     ),
-                    SizedBox(height: mediaquery.height * 0.05),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Share',
-                        style: const TextStyle(),
-                      ),
-                    ),
-                  ],
-                ),
               ],
             ),
             Card(

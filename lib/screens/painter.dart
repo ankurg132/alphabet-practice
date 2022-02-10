@@ -1,5 +1,8 @@
+// ignore_for_file: sized_box_for_whitespace
+
 import 'package:flutter/material.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
+import 'package:overcome_breakup/constants/colors.dart';
 import 'package:scribble/scribble.dart';
 
 class DrawingSheet extends StatefulWidget {
@@ -23,12 +26,32 @@ class _HomePageState extends State<DrawingSheet> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      // scrollDirection: Axis.horizontal,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SizedBox(
-          // height: MediaQuery.of(context).size.height * 0.7,
+          height: MediaQuery.of(context).size.height * 0.9,
           child: Column(
             children: [
+              Center(
+                child: Row(
+                  children: [
+                    const Spacer(),
+                    ElevatedButton(
+                        onPressed: () {
+                          _saveImage(context);
+                        },
+                        child: const Text("Save Image")),
+                    const Spacer(),
+                    ElevatedButton(
+                        onPressed: () {
+                          _saveImage(context);
+                        },
+                        child: const Text("Share Image")),
+                    const Spacer(),
+                  ],
+                ),
+              ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.6,
                 child: Stack(
@@ -50,32 +73,15 @@ class _HomePageState extends State<DrawingSheet> {
                             width: MediaQuery.of(context).size.width * 0.9,
                             child: Row(
                               children: [
-                                const Spacer(),
+                                // DropdownButton(items: [], onChanged: onChanged)
                                 _buildStrokeToolbar(context),
+                                const Spacer(),
                               ],
                             ),
                           ),
                         ],
                       ),
                     )
-                  ],
-                ),
-              ),
-              Center(
-                child: Row(
-                  children: [
-                    const Spacer(),
-                    TextButton(
-                        onPressed: () {
-                          _saveImage(context);
-                        },
-                        child: const Text("Save Image")),
-                    TextButton(
-                        onPressed: () {
-                          _saveImage(context);
-                        },
-                        child: const Text("Share Image")),
-                    const Spacer(),
                   ],
                 ),
               ),
@@ -155,22 +161,60 @@ class _HomePageState extends State<DrawingSheet> {
       builder: (context, state, _) => Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
+        // scrollDirection: Axis.horizontal,
         children: [
+          _buildPointerModeSwitcher(context,
+              penMode:
+                  state.allowedPointersMode == ScribblePointerMode.penOnly),
+          const Divider(
+            height: 4.0,
+          ),
           _buildUndoButton(context),
           const Divider(
             height: 4.0,
           ),
-         
           _buildClearButton(context),
           const Divider(
             height: 5.0,
           ),
           _buildEraserButton(context, isSelected: state is Erasing),
           _buildColorButton(context, color: Colors.black, state: state),
-          _buildColorButton(context, color: Colors.red, state: state),
-          _buildColorButton(context, color: Colors.green, state: state),
-          _buildColorButton(context, color: Colors.blue, state: state),
-          _buildColorButton(context, color: Colors.yellow, state: state),
+          // _buildColorButton(context, color: Colors.red, state: state),
+          ElevatedButton(
+              onPressed: () {
+                // notifier.setColor(Colors.black);
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return Container(
+                        height: MediaQuery.of(context).size.height * 0.65,
+                        child: ListView.builder(
+                          itemCount: colors.length,
+                          itemBuilder: (context, index) {
+                            final color = colors[index];
+                            return Center(
+                              child: ListTile(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  setState(() {
+                                    notifier.setColor(color);
+                                  });
+                                },
+                                leading: CircleAvatar(
+                                  backgroundColor: color,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    });
+              },
+              child: const Text("Colors")),
+          // }, child: const Text("Color")),
+          // _buildColorButton(context, color: Colors.green, state: state),
+          // _buildColorButton(context, color: Colors.blue, state: state),
+          // _buildColorButton(context, color: Colors.yellow, state: state),
         ],
       ),
     );
