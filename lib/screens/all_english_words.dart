@@ -1,16 +1,8 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
-import 'dart:convert';
-
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-
-import 'package:http/http.dart' as http;
 import 'package:overcome_breakup/constants/colors.dart';
-import 'package:overcome_breakup/screens/hindi_practice_screen.dart';
-import 'package:overcome_breakup/screens/painter.dart';
-
+import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 import 'english_practice_screen.dart';
+import 'home_screens.dart';
 
 class AllEnglishWordList extends StatefulWidget {
   AllEnglishWordList({Key? key}) : super(key: key);
@@ -26,7 +18,6 @@ class _HindiPracticeState extends State<AllEnglishWordList> {
     var mediaquery = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-
         backgroundColor: MyColors.primaryColor,
         title: const Text('English  '),
       ),
@@ -38,17 +29,28 @@ class _HindiPracticeState extends State<AllEnglishWordList> {
               crossAxisSpacing: 10,
               mainAxisSpacing: 10),
           itemBuilder: (ctx, index) => Card(
-            elevation: 10,
+                elevation: 10,
                 child: ListTile(
-                  title: Center(
-                    child: Text(
-                      english[index],
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: mediaquery.height * 0.16,
-                          color: colors[index % colors.length]),
-                    ),
-                  ),
+                  title: Stack(children: [
+                    Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                            alignment: Alignment.bottomRight,
+                            child: Icon(
+                              Icons.brush_outlined,
+                              color: colors[index % colors.length],
+                              size: 40,
+                            ))),
+                    Center(
+                      child: Text(
+                        english[index],
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: mediaquery.height * 0.16,
+                            color: colors[index % colors.length]),
+                      ),
+                    )
+                  ]),
                   // subtitle: Text(hindi[index]),
                   onTap: () {
                     Navigator.of(context)
@@ -56,6 +58,7 @@ class _HindiPracticeState extends State<AllEnglishWordList> {
                   },
                 ),
               )),
+              bottomNavigationBar: UnityBannerAd(placementId: AdManager.bannerAdPlacementId,),
     );
   }
 }

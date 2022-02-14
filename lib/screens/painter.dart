@@ -1,8 +1,15 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:overcome_breakup/constants/colors.dart';
 import 'package:overcome_breakup/screens/home_screens.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:scribble/scribble.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 
 class DrawingSheet extends StatefulWidget {
   const DrawingSheet({Key? key}) : super(key: key);
@@ -17,15 +24,23 @@ class _HomePageState extends State<DrawingSheet> {
   @override
   void initState() {
     notifier = ScribbleNotifier();
+    UnityAds.load(
+      placementId: AdManager.interstitialVideoAdPlacementId,
+      onComplete: (placementId) {
+        print('Load Complete $placementId');
+      },
+      onFailed: (placementId, error, message) =>
+          print('Load Failed $placementId: $error $message'),
+    );
     super.initState();
   }
-
+ScreenshotController screenshotController = ScreenshotController();
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
+    return Padding(
         padding: const EdgeInsets.all(8.0),
-        child: SizedBox(
+        child: Container(
+          color: Colors.white,
           height: MediaQuery.of(context).size.height * 0.9,
           child: Column(
             children: [
@@ -36,14 +51,13 @@ class _HomePageState extends State<DrawingSheet> {
                     ElevatedButton(
                         onPressed: () async {
                           await _saveImage(context);
-                          interstitialAd.show();
                         },
-                        child: const Text("Save Image")),
+                        child: const Text("View Image")),
                     const Spacer(),
                     ElevatedButton(
                         onPressed: () async {
-                          await _saveImage(context);
-                          interstitialAd.show();
+                          // await UnityAds.showVideoAd(placementId: AdManager.interstitialVideoAdPlacementId);
+                          await _shareImage(context);
                         },
                         child: const Text("Share Image")),
                     const Spacer(),
@@ -54,10 +68,13 @@ class _HomePageState extends State<DrawingSheet> {
                 height: MediaQuery.of(context).size.height * 0.6,
                 child: Stack(
                   children: [
-                    Scribble(
-                      notifier: notifier,
-                      drawPen: true,
-                    ),
+                    Screenshot(child: Container(
+                      color: Colors.white,
+                      child: Scribble(
+                        notifier: notifier,
+                        drawPen: true,
+                      ),
+                    ), controller: screenshotController) ,
                     Positioned(
                       top: 0,
                       left: 0,
@@ -80,7 +97,7 @@ class _HomePageState extends State<DrawingSheet> {
             ],
           ),
         ),
-      ),
+      
     );
   }
 
@@ -90,9 +107,27 @@ class _HomePageState extends State<DrawingSheet> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text("Your Image"),
-        content: Image.memory(image.buffer.asUint8List()),
+        content: Image.memory(image.buffer.asUint8List(),),
       ),
     );
+  }
+
+  Future<void> _shareImage(BuildContext context) async {
+    final image = await notifier.renderImage();
+    Uint8List uint8List = image.buffer.asUint8List();
+    final directory = (await getTemporaryDirectory ()).path; //from path_provide package
+// String fileName = DateTime.now().microsecondsSinceEpoch.toString();
+
+await screenshotController.captureAndSave(
+    directory, //set path where screenshot will be saved
+    fileName:'image.jpg' 
+);
+    // print(File.fromRawPath(uint8List).path);
+    // final tempDir = await getTemporaryDirectory();
+    // File file = await File('${tempDir.path}/image.jpg').create();
+    // file.writeAsBytesSync(uint8List);
+    print('$directory/image.jpg');
+    Share.shareFiles(['$directory/image.jpg'], text: 'Check my Writing created from https://play.google.com/store/apps/details?id=com.alphabet.practice');
   }
 
   Widget _buildStrokeToolbar(BuildContext context) {
@@ -148,7 +183,7 @@ class _HomePageState extends State<DrawingSheet> {
   }
 
   Widget _buildColorToolbar(BuildContext context) {
-    Color avatarColor = Colors.pink;
+    Color avatarColor = Colors.black;
     return StateNotifierBuilder<ScribbleState>(
       stateNotifier: notifier,
       builder: (context, state, _) => Row(
@@ -180,8 +215,8 @@ class _HomePageState extends State<DrawingSheet> {
                     context: context,
                     builder: (context) {
                       return SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.65,
-                        child: ListView.builder(
+                        height: MediaQuery.of(context).size.height * 0.35,
+                        child: GridView.builder(
                           itemCount: colors.length,
                           itemBuilder: (context, index) {
                             final color = colors[index];
@@ -200,6 +235,9 @@ class _HomePageState extends State<DrawingSheet> {
                               ),
                             );
                           },
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 5),
                         ),
                       );
                     });

@@ -1,7 +1,6 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, unnecessary_string_interpolations
-
 import 'package:flutter/material.dart';
 import 'package:overcome_breakup/screens/painter.dart';
+import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 
 import '../constants/colors.dart';
 
@@ -22,11 +21,13 @@ class _HindiPracticeState extends State<MathsPractice> {
     int index = ModalRoute.of(context)!.settings.arguments as int;
     return WillPopScope(
       onWillPop: () {
-        interstitialAd.show();
+        UnityAds.showVideoAd(placementId: AdManager.interstitialVideoAdPlacementId);
+        Navigator.of(context).pop();
         return Future.value(false);
       },
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: MyColors.primaryColor,
           title: Text('Maths $index'),
         ),
         body: SingleChildScrollView(

@@ -53,6 +53,7 @@ class _HindiPracticeState extends State<HindiPractice> {
       },
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: MyColors.primaryColor,
           title: Text('हिंदी ${hindi[index]}'),
         ),
         body: SingleChildScrollView(

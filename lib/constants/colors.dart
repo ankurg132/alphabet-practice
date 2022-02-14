@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MyColors {
-  static const primaryColor = Color.fromARGB(255, 63, 7, 247);
-  static const backColor = Color.fromRGBO(255, 230, 242, 1);
+  static const primaryColor = Color.fromARGB(255, 42, 100, 30);
+  static const backColor = Color.fromARGB(255, 219, 219, 219);
   // static const primaryColor = Color.from;
 }
 

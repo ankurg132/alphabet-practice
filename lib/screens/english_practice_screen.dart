@@ -6,8 +6,10 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:overcome_breakup/constants/unityads.dart';
 import 'package:overcome_breakup/screens/home_screens.dart';
 import 'package:overcome_breakup/screens/painter.dart';
+import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 
 import '../constants/colors.dart';
 
@@ -26,7 +28,8 @@ class _HindiPracticeState extends State<EnglishPractice> {
     int index = ModalRoute.of(context)!.settings.arguments as int;
     return WillPopScope(
       onWillPop: () {
-        interstitialAd.show();
+        UnityAds.showVideoAd(placementId: AdManager.interstitialVideoAdPlacementId);
+        Navigator.of(context).pop();
         return Future.value(false);
       },
       child: Scaffold(
