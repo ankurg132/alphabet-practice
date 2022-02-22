@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:overcome_breakup/constants/colors.dart';
 import 'package:overcome_breakup/screens/all_english_words.dart';
-import 'package:unity_ads_plugin/unity_ads_plugin.dart';
+// import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 
 import 'all_hindi_words.dart';
 import 'all_maths_letters.dart';
@@ -21,14 +21,14 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     // print("INITHOMEMAIN");
-    UnityAds.init(
-      gameId: AdManager.gameId,
-      // testMode: true,
-      onComplete: () => print(
-          '-------------------Initialization Complete-------------------'),
-      onFailed: (error, message) =>
-          print('-------------------Initialization Failed-------------------'),
-    );
+    // UnityAds.init(
+    //   gameId: AdManager.gameId,
+    //   // testMode: true,
+    //   onComplete: () => print(
+    //       '-------------------Initialization Complete-------------------'),
+    //   onFailed: (error, message) =>
+    //       print('-------------------Initialization Failed-------------------'),
+    // );
     // if (data.isEmpty) {
     //   loadJsonData();
     // }
@@ -163,8 +163,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ListTile(
               title: Text('View Ads to Support Us'),
               onTap: () {
-                UnityAds.showVideoAd(
-                    placementId: AdManager.interstitialVideoAdPlacementId);
+                // UnityAds.showVideoAd(
+                //     placementId: AdManager.interstitialVideoAdPlacementId);
               },
             ),
             // ListTile(
@@ -179,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: UnityBannerAd(placementId: AdManager.bannerAdPlacementId,),
+      // bottomNavigationBar: UnityBannerAd(placementId: AdManager.bannerAdPlacementId,),
       // bottomNavigationBar: admob.AdmobBanner(
       //   adUnitId: getBannerAdUnitId()!,
       //   adSize: admob.AdmobBannerSize.ADAPTIVE_BANNER(width: 320, ),

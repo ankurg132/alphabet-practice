@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:overcome_breakup/constants/colors.dart';
 import 'package:overcome_breakup/screens/hindi_practice_screen.dart';
-import 'package:unity_ads_plugin/unity_ads_plugin.dart';
+// import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 
 import '../constants/unityads.dart';
 import 'home_screens.dart';
@@ -20,7 +20,7 @@ class _HindiPracticeState extends State<AllHindiWordList> {
     var mediaquery = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () {
-        UnityAds.showVideoAd(placementId: AdManager.interstitialVideoAdPlacementId);
+        // UnityAds.showVideoAd(placementId: AdManager.interstitialVideoAdPlacementId);
         Navigator.of(context).pop();
         return Future.value(false);
       },
@@ -60,7 +60,7 @@ class _HindiPracticeState extends State<AllHindiWordList> {
                   },
                 ),
               )),
-              bottomNavigationBar: UnityBannerAd(placementId: AdManager.bannerAdPlacementId,),
+              // bottomNavigationBar: UnityBannerAd(placementId: AdManager.bannerAdPlacementId,),
       // bottomNavigationBar:AdmobBanner(
       //   adUnitId: getBannerAdUnitId()!,
       //   adSize: AdmobBannerSize.ADAPTIVE_BANNER(width: 320, ),

@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:overcome_breakup/constants/colors.dart';
-import 'package:unity_ads_plugin/unity_ads_plugin.dart';
+// import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 import './screens/home_screens.dart';
 import 'screens/all_english_words.dart';
 import 'screens/all_hindi_words.dart';
@@ -30,10 +30,10 @@ void main() {
   ));
   HttpOverrides.global = MyHttpOverrides();
   // Admob.initialize();
-  UnityAds.init(
-    gameId: '4608643',
-onComplete: () => print('Initialization Complete'),
-  );
+//   UnityAds.init(
+//     gameId: '4608643',
+// onComplete: () => print('Initialization Complete'),
+  // );
   // Admob.initialize();
   runApp(const MyApp());
 }

@@ -9,7 +9,7 @@ import 'package:overcome_breakup/constants/colors.dart';
 import 'package:overcome_breakup/screens/hindi_practice_screen.dart';
 import 'package:overcome_breakup/screens/maths_practice_screen.dart';
 import 'package:overcome_breakup/screens/painter.dart';
-import 'package:unity_ads_plugin/unity_ads_plugin.dart';
+// import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 
 import '../constants/unityads.dart';
 import 'english_practice_screen.dart';
@@ -61,7 +61,7 @@ class _HindiPracticeState extends State<AllMathsWordList> {
                   },
                 ),
               )),
-              bottomNavigationBar: UnityBannerAd(placementId: AdManager.bannerAdPlacementId,),
+              // bottomNavigationBar: UnityBannerAd(placementId: AdManager.bannerAdPlacementId,),
       //         bottomNavigationBar: AdmobBanner(
       //   adUnitId: getBannerAdUnitId()!,
       //   adSize: AdmobBannerSize.ADAPTIVE_BANNER(width: 320, ),

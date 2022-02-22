@@ -9,7 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:scribble/scribble.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:unity_ads_plugin/unity_ads_plugin.dart';
+// import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 
 class DrawingSheet extends StatefulWidget {
   const DrawingSheet({Key? key}) : super(key: key);
@@ -24,14 +24,14 @@ class _HomePageState extends State<DrawingSheet> {
   @override
   void initState() {
     notifier = ScribbleNotifier();
-    UnityAds.load(
-      placementId: AdManager.interstitialVideoAdPlacementId,
-      onComplete: (placementId) {
-        print('Load Complete $placementId');
-      },
-      onFailed: (placementId, error, message) =>
-          print('Load Failed $placementId: $error $message'),
-    );
+    // UnityAds.load(
+    //   placementId: AdManager.interstitialVideoAdPlacementId,
+    //   onComplete: (placementId) {
+    //     print('Load Complete $placementId');
+    //   },
+    //   onFailed: (placementId, error, message) =>
+    //       print('Load Failed $placementId: $error $message'),
+    // );
     super.initState();
   }
 ScreenshotController screenshotController = ScreenshotController();

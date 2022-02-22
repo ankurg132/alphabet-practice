@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:overcome_breakup/constants/colors.dart';
-import 'package:unity_ads_plugin/unity_ads_plugin.dart';
+// import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 import 'english_practice_screen.dart';
 import 'home_screens.dart';
 
@@ -58,7 +58,7 @@ class _HindiPracticeState extends State<AllEnglishWordList> {
                   },
                 ),
               )),
-              bottomNavigationBar: UnityBannerAd(placementId: AdManager.bannerAdPlacementId,),
+              // bottomNavigationBar: UnityBannerAd(placementId: AdManager.bannerAdPlacementId,),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:overcome_breakup/screens/painter.dart';
-import 'package:unity_ads_plugin/unity_ads_plugin.dart';
+// import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 
 import '../constants/colors.dart';
 
@@ -21,7 +21,7 @@ class _HindiPracticeState extends State<MathsPractice> {
     int index = ModalRoute.of(context)!.settings.arguments as int;
     return WillPopScope(
       onWillPop: () {
-        UnityAds.showVideoAd(placementId: AdManager.interstitialVideoAdPlacementId);
+        // UnityAds.showVideoAd(placementId: AdManager.interstitialVideoAdPlacementId);
         Navigator.of(context).pop();
         return Future.value(false);
       },
