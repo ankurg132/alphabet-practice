@@ -1,0 +1,28 @@
+name: writingpractice
+version: 0.1.0
+summary: Writing Practice
+description: Write alphabets and numbers.
+
+confinement: strict
+base: core18
+grade: stable
+
+slots:
+  dbus-writingpractice: # adjust accordingly to your app name
+    interface: dbus
+    bus: session
+    name: com.semikolan.writingpractice # adjust accordingly to your app name and
+    
+apps:
+  writingpractice:
+    command: writingpractice
+    extensions: [flutter-stable] # Where "master" defines which Flutter channel to use for the build
+    plugs:
+    - network
+    slots:
+      - dbus-writingpractice
+parts:
+  writingpractice:
+    source: .
+    plugin: flutter
+    flutter-target: lib/main.dart # The main entry-point file of the application
