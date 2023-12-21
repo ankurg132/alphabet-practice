@@ -45,7 +45,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Writing Practice Kids',
-      theme: ThemeData(primaryColor: MyColors.primaryColor,buttonColor: MyColors.primaryColor),
+      theme: ThemeData(
+          primaryColor: MyColors.primaryColor,
+          cardColor: MyColors.primaryColor),
       debugShowCheckedModeBanner: false,
       home: HomeScreen(),
       routes: {
